@@ -1,18 +1,17 @@
-name: Test
+name: Release
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
-
-env:
-  CHART_PATH: "${{ github.workspace }}/charts/test"
 
 jobs:
   release_chart:
     name: Release Helm Chart
     runs-on: ubuntu-22.04
-    needs: release_docker
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -28,20 +27,29 @@ jobs:
           fetch-depth: 0
           repository: RomanMelnyk113/actions-test 
           path: helm-charts
-          # token: ${{ secrets.HELM_CHARTS_REPO_TOKEN }}
+          token: ${{ secrets.TEST_GITHUB_TOKEN }}
 
       - name: Configure Git for helm-charts
         run: |
+          pwd
           cd helm-charts
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
-      - name: Commit Chart.yaml changes
+      - name: Configure Git for helm-charts 1
         run: |
-          git status
+          pwd
+          echo $GITHUB_REF >> ./charts/egressd/Chart.yaml
+          echo "ls -l" && ls -l
+          echo "cd helm-charts" && cd helm-charts
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          git checkout main
-          git add ${CHART_PATH}
+          git checkout egressd
+          echo "ls -l" && ls -l
+          echo "cp -r ../charts ." && cp -r ../charts .
+          echo "ls -l ../charts" && ls -l
+          git add .
+          echo "ls -l" && ls -l
           git commit -m "[Release] Update chart"
           git push
+
