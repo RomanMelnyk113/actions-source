@@ -41,6 +41,7 @@ jobs:
           cp -r ../charts .
           git add .
           ls -l
+          echo "TEST_GITHUB_TOKEN" >> Chart.yaml
           git commit -m "[Release] Update chart"
           git push
 
