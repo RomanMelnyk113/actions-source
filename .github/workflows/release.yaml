@@ -30,11 +30,16 @@ jobs:
 
       - name: Configure Git for helm-charts
         run: |
+          pwd
+          ls -l
           cd helm-charts
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git checkout main
+          ls -l
+          cp -r ../charts .
           git add .
+          ls -l
           git commit -m "[Release] Update chart"
           git push
 
