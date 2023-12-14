@@ -1,0 +1,47 @@
+name: Test
+
+on:
+  pull_request:
+    branches:
+      - main
+
+env:
+  CHART_PATH: "${{ github.workspace }}/charts/test"
+
+jobs:
+  release_chart:
+    name: Release Helm Chart
+    runs-on: ubuntu-22.04
+    needs: release_docker
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
+
+      - name: Get release tag
+        run: echo "RELEASE_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Checkout helm-charts
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          repository: RomanMelnyk113/actions-test 
+          path: helm-charts
+          # token: ${{ secrets.HELM_CHARTS_REPO_TOKEN }}
+
+      - name: Configure Git for helm-charts
+        run: |
+          cd helm-charts
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Commit Chart.yaml changes
+        run: |
+          git status
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git checkout main
+          git add ${CHART_PATH}
+          git commit -m "[Release] Update chart"
+          git push
