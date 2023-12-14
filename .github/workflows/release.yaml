@@ -15,7 +15,6 @@ jobs:
   release_chart:
     name: Release Helm Chart
     runs-on: ubuntu-22.04
-    needs: release_docker
     steps:
       - name: Checkout
         uses: actions/checkout@v2
