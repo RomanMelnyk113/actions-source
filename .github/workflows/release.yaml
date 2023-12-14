@@ -32,16 +32,16 @@ jobs:
       - name: Configure Git for helm-charts
         run: |
           pwd
-          ls -l
-          echo "TEST_GITHUB_TOKEN" >> Chart.yaml
-          cd helm-charts
+          echo "ls -l" && ls -l
+          echo $GITHUB_REF >> Chart.yaml
+          echo "cd helm-charts" && cd helm-charts
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git checkout egressd
-          ls -l
-          cp -r ../charts .
+          echo "ls -l" && ls -l
+          echo "cp -r ../charts ." && cp -r ../charts .
           git add .
-          ls -l
+          echo "ls -l" && ls -l
           git commit -m "[Release] Update chart"
           git push
 
