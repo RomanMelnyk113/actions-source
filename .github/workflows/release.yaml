@@ -27,6 +27,20 @@ jobs:
           fetch-depth: 0
           repository: RomanMelnyk113/actions-test 
           path: helm-charts
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # - name: Pushes to public repository
+      #   id: push_directory
+      #   uses: cpina/github-action-push-to-another-repository@ssh-deploy-key
+      #   env:
+      #     API_TOKEN_GITHUB: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     source-directory: helm-charts/
+      #     destination-github-username: "$GITHUB_ACTOR"
+      #     destination-repository-name: "RomanMelnyk113/actions-test"
+      #     user-email: "$GITHUB_ACTOR@users.noreply.github.com" 
+      #     commit-message: pushed from $GITHUB_REF
+      #     target-branch: main
 
       - name: Configure Git for helm-charts
         run: |
