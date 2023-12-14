@@ -32,7 +32,14 @@ jobs:
       - name: Configure Git for helm-charts
         run: |
           pwd
-          echo $GITHUB_REF >> ./charts/Chart.yaml
+          cd helm-charts
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Configure Git for helm-charts 1
+        run: |
+          pwd
+          echo $GITHUB_REF >> ./charts/egressd/Chart.yaml
           echo "ls -l" && ls -l
           echo "cd helm-charts" && cd helm-charts
           git config user.name "$GITHUB_ACTOR"
