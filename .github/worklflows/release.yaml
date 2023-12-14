@@ -28,7 +28,6 @@ jobs:
           fetch-depth: 0
           repository: RomanMelnyk113/actions-test 
           path: helm-charts
-          # token: ${{ secrets.HELM_CHARTS_REPO_TOKEN }}
 
       - name: Configure Git for helm-charts
         run: |
